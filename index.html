@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FilmBox - tu cine en casa</title>
+    <title>FILMBOX - TU CINE EN CASA </title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <!-- AOS Library -->
@@ -114,7 +114,6 @@
             stroke-linejoin: round;
         }
 
-        /* Animation: Drawing effect */
         .svg-animate path {
             stroke-dasharray: 100;
             stroke-dashoffset: 100;
@@ -140,6 +139,7 @@
             box-shadow: 0 10px 30px rgba(229, 9, 20, 0.4);
             transition: var(--transition);
             border: 2px solid transparent;
+            cursor: pointer;
         }
 
         .btn-download:hover {
@@ -148,9 +148,51 @@
             box-shadow: 0 15px 40px rgba(229, 9, 20, 0.6);
         }
 
-        .btn-download svg {
+        /* --- Notification Toast --- */
+        #download-toast {
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15, 15, 15, 0.95);
+            border: 1px solid var(--primary);
+            padding: 15px 30px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: white;
+            z-index: 3000;
+            transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+        }
+
+        #download-toast.active {
+            bottom: 40px;
+        }
+
+        .loader-icon {
             width: 24px;
             height: 24px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .downloading-svg {
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(3px); }
         }
 
         /* --- Features Grid --- */
@@ -179,16 +221,6 @@
             background: rgba(229, 9, 20, 0.02);
         }
 
-        .feature-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-        }
-
-        .feature-card p {
-            color: var(--text-gray);
-            font-size: 0.95rem;
-        }
-
         /* --- Steps Section --- */
         .step {
             display: flex;
@@ -207,7 +239,6 @@
             min-width: 60px;
         }
 
-        /* --- Footer --- */
         footer {
             padding: 50px 0;
             border-top: 1px solid rgba(255,255,255,0.05);
@@ -216,23 +247,10 @@
             font-size: 0.9rem;
         }
 
-        /* --- Mobile Adjustments --- */
         @media (max-width: 768px) {
             .logo-text { font-size: 2.5rem; }
             .step { flex-direction: column; text-align: center; gap: 10px; }
             .btn-download { width: 100%; justify-content: center; }
-        }
-
-        /* Modal Simple for Instructions */
-        #install-modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.9);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(10px);
         }
     </style>
 </head>
@@ -240,6 +258,17 @@
 
     <div class="glow glow-1"></div>
     <div class="glow glow-2"></div>
+
+    <!-- Notification Toast -->
+    <div id="download-toast">
+        <div class="loader-icon"></div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <svg class="downloading-svg" width="20" height="20" viewBox="0 0 24 24" fill="var(--primary)">
+                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+            </svg>
+            <span style="font-weight: 600; font-size: 0.9rem;">Descargando FilmBox APK...</span>
+        </div>
+    </div>
 
     <!-- Main Content -->
     <div class="container">
@@ -254,20 +283,20 @@
             <p data-aos="fade-up" data-aos-delay="200">Disfruta de estrenos, series y canales en vivo sin límites. Una experiencia premium diseñada para ser rápida y ligera.</p>
             
             <div data-aos="fade-up" data-aos-delay="300">
+                <!-- Cambia el href por tu link directo del APK -->
                 <a href="https://www.mediafire.com/file/8ekw8nq5nz8i2qi/FILMBOX_3.5_%255B_oficial_%255D.apk/file" class="btn-download" id="downloadBtn">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14v-4H8l4-4 4 4h-3v4h-2z"/>
                     </svg>
                     DESCARGAR APK
                 </a>
-                <p style="margin-top: 15px; font-size: 0.8rem; color: #555;">Versión 2.4.0 • Android 5.0+</p>
+                <p style="margin-top: 15px; font-size: 0.8rem; color: #555;">Versión 3.5 • Android 8.0+</p>
             </div>
         </section>
 
         <!-- Features Section -->
         <section id="features">
             <div class="features-grid">
-                <!-- Icon 1: Quality -->
                 <div class="feature-card" data-aos="fade-up">
                     <div class="icon-container">
                         <svg class="svg-icon svg-animate" viewBox="0 0 24 24">
@@ -278,7 +307,6 @@
                     <p>Contenido en FHD y 4K adaptado a tu conexión de internet automáticamente.</p>
                 </div>
 
-                <!-- Icon 2: Speed -->
                 <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
                     <div class="icon-container">
                         <svg class="svg-icon svg-animate" viewBox="0 0 24 24">
@@ -289,7 +317,6 @@
                     <p>Servidores optimizados para evitar el buffering incluso en conexiones lentas.</p>
                 </div>
 
-                <!-- Icon 3: Support -->
                 <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
                     <div class="icon-container">
                         <svg class="svg-icon svg-animate" viewBox="0 0 24 24">
@@ -334,40 +361,41 @@
     </div>
 
     <footer>
-        <p>© 2026 FILMBOX • ELIMINA LOS LÍMITES</p>
-        <p style="font-size: 0.7rem; margin-top: 10px; opacity: 0.5;">Esta aplicación no está disponible en tiendas oficiales para garantizar contenido sin censura.</p>
+        <p>© 2024 FILMBOX • ENTRETENIMIENTO SIN LÍMITES</p>
     </footer>
 
     <!-- AOS Script -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Initialize Animations
         AOS.init({
             duration: 1000,
             once: true,
             offset: 100
         });
 
-        // Simple Download Trigger
+        // Lógica de descarga optimizada
         document.getElementById('downloadBtn').addEventListener('click', function(e) {
             e.preventDefault();
-            // Simulación de descarga
-            const button = this;
-            const originalText = button.innerHTML;
             
-            button.style.pointerEvents = 'none';
-            button.innerHTML = 'PREPARANDO ARCHIVO...';
-            
+            // 1. Mostrar la notificación minimalista
+            const toast = document.getElementById('download-toast');
+            toast.classList.add('active');
+
+            // 2. Iniciar la descarga real (reemplaza 'filmbox.apk' con tu link real)
+            // Creamos un link temporal para forzar la descarga sin salir de la página
+            const downloadUrl = 'filmbox_oficial.apk'; 
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.download = 'FilmBox_v2.4.apk';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // 3. Ocultar la notificación después de unos segundos
             setTimeout(() => {
-                button.innerHTML = 'INICIANDO DESCARGA...';
-                setTimeout(() => {
-                    button.innerHTML = originalText;
-                    button.style.pointerEvents = 'auto';
-                    // Aquí iría el link real: window.location.href = 'tu_app.apk';
-                    alert('La descarga de FilmBox APK comenzará en un instante.');
-                }, 1500);
-            }, 1000);
+                toast.classList.remove('active');
+            }, 5000);
         });
     </script>
 </body>
-              </html>
+</html>
